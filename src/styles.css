@@ -145,3 +145,157 @@
 @utility shadow-cta {
   box-shadow: var(--shadow-cta);
 }
+
+/* =====================================================================================
+ * Animações — tudo CSS. As de entrada por rolagem só escondem o conteúdo depois que o
+ * JS marca <html class="anim"> (src/components/animacoes.tsx): sem JS, nada some.
+ * Respeita prefers-reduced-motion no fim do arquivo.
+ * ===================================================================================== */
+
+@keyframes vr-kenburns {
+  from { transform: scale(1.12) translate3d(1.5%, 0, 0); }
+  to { transform: scale(1) translate3d(0, 0, 0); }
+}
+@keyframes vr-rise {
+  from { opacity: 0; transform: translate3d(0, 28px, 0); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@keyframes vr-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes vr-shimmer { to { background-position: -200% 0; } }
+@keyframes vr-sweep {
+  0% { transform: translateX(-120%) skewX(-20deg); }
+  60%, 100% { transform: translateX(260%) skewX(-20deg); }
+}
+@keyframes vr-float { 50% { transform: translateY(-8px); } }
+@keyframes vr-ping {
+  0% { box-shadow: 0 0 0 0 hsl(152 76% 50% / 0.6); }
+  80%, 100% { box-shadow: 0 0 0 10px hsl(152 76% 50% / 0); }
+}
+@keyframes vr-marquee { to { transform: translateX(-50%); } }
+@keyframes vr-cue { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(12px); opacity: 0; } }
+@keyframes vr-spin { to { transform: rotate(360deg); } }
+@keyframes vr-glow {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.08); }
+}
+@keyframes vr-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes vr-speed {
+  0% { transform: translateX(0) scaleX(0.3); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateX(-70vw) scaleX(1); opacity: 0; }
+}
+
+@utility animate-kenburns { animation: vr-kenburns 14s cubic-bezier(.2,.7,.2,1) both; }
+@utility animate-rise { animation: vr-rise 0.9s cubic-bezier(.2,.8,.2,1) both; }
+@utility animate-float { animation: vr-float 4s ease-in-out infinite; }
+@utility animate-ping-soft { animation: vr-ping 1.8s ease-out infinite; }
+@utility animate-glow { animation: vr-glow 6s ease-in-out infinite; }
+
+/* Amarelo com brilho correndo — só em títulos curtos */
+@utility text-shimmer {
+  background: linear-gradient(100deg, var(--primary) 0%, var(--primary) 40%, hsl(48 100% 78%) 50%, var(--primary) 60%, var(--primary) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: vr-shimmer 5s linear infinite;
+}
+
+/* Brilho que atravessa o botão no hover (e uma vez sozinho, a cada poucos segundos) */
+@utility btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.55), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+    animation: vr-sweep 4.5s ease-in-out 2s infinite;
+    pointer-events: none;
+  }
+}
+
+/* Faixa que rola sozinha (marcas, bancos). O conteúdo vem duplicado no JSX. */
+@utility marquee {
+  display: flex;
+  width: max-content;
+  animation: vr-marquee var(--dur, 36s) linear infinite;
+  &:hover { animation-play-state: paused; }
+}
+@utility mask-x {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* Entrada por rolagem: data-reveal="up|left|right|zoom", atraso por style --d */
+html.anim [data-reveal] {
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(.2,.8,.2,1) var(--d, 0ms),
+    transform 0.9s cubic-bezier(.2,.8,.2,1) var(--d, 0ms),
+    filter 0.9s cubic-bezier(.2,.8,.2,1) var(--d, 0ms);
+  will-change: opacity, transform;
+}
+html.anim [data-reveal="up"] { transform: translate3d(0, 40px, 0); }
+html.anim [data-reveal="left"] { transform: translate3d(-48px, 0, 0); }
+html.anim [data-reveal="right"] { transform: translate3d(48px, 0, 0); }
+html.anim [data-reveal="zoom"] { transform: scale(0.94); filter: blur(4px); }
+html.anim [data-reveal].is-in { opacity: 1; transform: none; filter: none; }
+
+/* Traço amarelo que se desenha embaixo do kicker das seções */
+.kicker-line {
+  transform-origin: left;
+  animation: vr-line 1s cubic-bezier(.2,.8,.2,1) 0.2s both;
+}
+html.anim [data-reveal] .kicker-line { animation: none; transform: scaleX(0); transition: transform 1s cubic-bezier(.2,.8,.2,1) calc(var(--d, 0ms) + 300ms); }
+html.anim [data-reveal].is-in .kicker-line { transform: scaleX(1); }
+
+/* Borda com luz girando (cartão de CTA) */
+.borda-luz {
+  position: relative;
+  isolation: isolate;
+}
+.borda-luz::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--ang, 0deg), transparent 0 70%, var(--primary) 85%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: vr-ang 5s linear infinite;
+}
+@property --ang { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes vr-ang { to { --ang: 360deg; } }
+
+/* Linhas de velocidade do hero */
+.speed-lines i {
+  position: absolute;
+  right: -10%;
+  height: 1px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, transparent, hsl(47 97% 60% / 0.8));
+  animation: vr-speed var(--t, 1.6s) linear var(--d, 0s) infinite;
+  opacity: 0;
+}
+
+/* Barra de progresso da rolagem, no topo do cabeçalho */
+.scroll-progress {
+  transform-origin: left;
+  transform: scaleX(var(--p, 0));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  html.anim [data-reveal] { opacity: 1; transform: none; filter: none; }
+  .marquee { animation: none; }
+}

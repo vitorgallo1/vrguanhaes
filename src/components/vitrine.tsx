@@ -232,7 +232,12 @@ export function BikeCard({
   const foto = primeira && !quebradas.includes(primeira) ? primeira : undefined;
 
   return (
-    <article className="group flex w-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-hover">
+    <article className="group relative flex w-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card transition duration-500 ease-[cubic-bezier(.2,.8,.2,1)] hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-card-hover">
+      {/* Traço amarelo que cresce no pé do card no hover */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] origin-left scale-x-0 bg-primary transition-transform duration-500 group-hover:scale-x-100"
+      />
       <div className={`relative aspect-[16/11] overflow-hidden ${STUDIO_BG}`}>
         {foto ? (
           <button
@@ -249,13 +254,18 @@ export function BikeCard({
               height={550}
               loading="lazy"
               decoding="async"
-              className={`h-full w-full object-contain px-4 pb-3 pt-9 transition duration-500 animate-in fade-in group-hover:scale-[1.04] ${FOTO}`}
+              className={`h-full w-full object-contain px-4 pb-3 pt-9 transition duration-500 animate-in fade-in group-hover:-translate-y-1 group-hover:scale-[1.06] ${FOTO}`}
               onError={() => setQuebradas((q) => [...q, foto])}
             />
           </button>
         ) : (
           <FotoEmBreve bike={bike} cor={cor} />
         )}
+        {/* Reflexo que atravessa a foto no hover */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 transition-all duration-700 group-hover:left-[120%] group-hover:opacity-100"
+        />
         <span className="absolute left-3 top-3 rounded-md bg-black/85 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-primary">
           {bike.categoria}
         </span>

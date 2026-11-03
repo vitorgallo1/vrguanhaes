@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { SITE_URL, UNIDADE } from "@/config/unidade";
 import { WhatsAppFlutuante } from "@/components/whatsapp-flutuante";
+import { AnimacoesDaPagina } from "@/components/animacoes";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 const TITULO = `${UNIDADE.nome} — Motos 0 km em ${UNIDADE.cidade}/${UNIDADE.uf}`;
@@ -144,6 +145,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <WhatsAppFlutuante />
+      <AnimacoesDaPagina />
     </QueryClientProvider>
   );
 }
