@@ -297,7 +297,9 @@ export function BikeCard({
               {bike.nome}
             </Link>
           </h3>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{bike.descricao}</p>
+          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground sm:line-clamp-none">
+            {bike.descricao}
+          </p>
         </div>
 
         {cor && (

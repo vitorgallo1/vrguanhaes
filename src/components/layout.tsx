@@ -171,7 +171,7 @@ export function SectionHeading({
           {kicker}
         </p>
       )}
-      <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] text-ink sm:text-5xl">
+      <h2 className="mt-3 font-display text-[30px] font-bold leading-[1.08] text-ink sm:mt-4 sm:text-5xl">
         {title}
       </h2>
     </div>
