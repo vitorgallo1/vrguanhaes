@@ -369,3 +369,46 @@ body {
   }
   .hero-piso { background-size: 40px 40px; }
 }
+
+/* =====================================================================================
+ * Celular: rolagem fluida. Desfoque, vidro fosco, brilho animado e camadas fixas custam
+ * caro na GPU do telefone e fazem a rolagem engasgar — aqui ficam de fora.
+ * ===================================================================================== */
+@media (max-width: 767px) {
+  html.anim [data-reveal] {
+    transition-duration: 0.55s;
+    transition-delay: calc(var(--d, 0ms) * 0.5);
+  }
+  html.anim [data-reveal="up"],
+  html.anim [data-reveal="left"],
+  html.anim [data-reveal="right"] {
+    transform: translate3d(0, 18px, 0);
+  }
+  html.anim [data-reveal="zoom"] {
+    transform: scale(0.98);
+  }
+  html.anim [data-reveal],
+  html.anim [data-reveal="zoom"] {
+    filter: none;
+  }
+  /* Card que ainda está fora da tela, na fileira que desliza, já aparece pronto:
+     animar na hora do deslize parece atraso. */
+  html.anim .carrossel [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  body::before {
+    display: none;
+  }
+  .hero-piso,
+  .animate-glow {
+    animation: none;
+  }
+  .hero-moto {
+    mix-blend-mode: normal;
+  }
+  .animate-rise {
+    animation-duration: 0.6s;
+  }
+}

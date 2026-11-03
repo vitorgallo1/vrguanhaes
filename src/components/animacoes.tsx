@@ -64,9 +64,10 @@ export function Contador({ valor, className }: { valor: string; className?: stri
       if (!e.isIntersecting) return;
       io.disconnect();
       const inicio = performance.now();
+      // Escreve direto no elemento: re-renderizar o React a cada quadro pesa no celular.
       const passo = (t: number) => {
-        const p = Math.min((t - inicio) / 1600, 1);
-        setTexto(formatar(alvo * (1 - Math.pow(1 - p, 3))));
+        const p = Math.min((t - inicio) / 1400, 1);
+        el.textContent = formatar(alvo * (1 - Math.pow(1 - p, 3)));
         if (p < 1) raf = requestAnimationFrame(passo);
       };
       raf = requestAnimationFrame(passo);
