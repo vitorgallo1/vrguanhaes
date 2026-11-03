@@ -1,6 +1,6 @@
 // Cabeçalho, rodapé e título de seção — iguais na página inicial e na página de cada
 // moto. Os links da navegação apontam para "/#secao", então funcionam de qualquer página.
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { TEM_WHATSAPP, UNIDADE, whatsappUrl } from "@/config/unidade";
 import logoVRHorizontal from "@/assets/logohorizontal.png";
@@ -43,16 +43,41 @@ export function Logo({ variant = "default" }: { variant?: "default" | "horizonta
 
 export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [rolou, setRolou] = useState(false);
+  const barra = useRef<HTMLSpanElement>(null);
+  // Fundo mais sólido depois que a página rola, e a barra amarela de progresso.
+  useEffect(() => {
+    const aoRolar = () => {
+      const y = window.scrollY;
+      setRolou(y > 24);
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      barra.current?.style.setProperty("--p", String(total > 0 ? y / total : 0));
+    };
+    aoRolar();
+    window.addEventListener("scroll", aoRolar, { passive: true });
+    return () => window.removeEventListener("scroll", aoRolar);
+  }, []);
   return (
     <header
       id="top"
-      className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md"
+      className={`sticky top-0 z-40 border-b backdrop-blur-md transition-colors duration-300 ${
+        rolou ? "border-border bg-background/90" : "border-transparent bg-background/40"
+      }`}
     >
+      <span
+        ref={barra}
+        aria-hidden
+        className="scroll-progress absolute inset-x-0 bottom-[-1px] h-[2px] bg-primary"
+      />
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8">
         <Logo variant="horizontal" />
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
           {NAV_LINKS.map((l) => (
-            <a key={l.href} href={l.href} className="transition hover:text-primary">
+            <a
+              key={l.href}
+              href={l.href}
+              className="relative py-1 transition after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:text-primary hover:after:origin-left hover:after:scale-x-100"
+            >
               {l.label}
             </a>
           ))}
@@ -62,7 +87,7 @@ export function Nav() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-cta transition hover:bg-primary-dark sm:inline-flex"
+            className="btn-shine hidden items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-cta transition hover:bg-primary-dark sm:inline-flex"
           >
             Fale conosco
             <span aria-hidden>→</span>
@@ -132,7 +157,7 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <div className={className}>
+    <div className={className} data-reveal="up">
       {Icon ? (
         <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/60 py-1 pl-1.5 pr-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
           <span className="grid h-5 w-5 place-items-center rounded-full bg-primary/15">
@@ -141,7 +166,8 @@ export function SectionHeading({
           {kicker}
         </span>
       ) : (
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+        <p className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+          <span aria-hidden className="kicker-line h-px w-8 bg-primary" />
           {kicker}
         </p>
       )}
