@@ -1,0 +1,4 @@
+# LP da VR Multimarcas Guanhães — ver DEPLOY.md.
+[build]
+  command = "bun run build"
+  publish = "dist/client"
