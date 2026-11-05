@@ -27,9 +27,6 @@ import {
   Wallet,
   Zap,
 } from "lucide-react";
-// PENDENTE: arte do hero da loja. Esta é a arte genérica da rede (render de showroom
-// ao pôr do sol) — por isso o alt não afirma que é a loja desta cidade.
-import heroArte from "@/assets/hero-showroom.webp";
 import heroBike from "@/assets/hero-bike.jpg";
 // PENDENTE: foto da fachada desta loja. Esta é de outra unidade da rede.
 import fachadaVR from "@/assets/fachada-vr.webp";
@@ -154,24 +151,13 @@ function Hero({ bikes }: { bikes: Bike[] }) {
   const marcas = marcasPresentes(bikes);
   return (
     <section className="relative isolate -mt-16 overflow-hidden pt-16">
-      <img
-        src={heroArte}
-        alt="Motos estacionadas em frente a um showroom ao pôr do sol"
-        width={2048}
-        height={768}
-        // A arte é bem panorâmica (2048x768). Em tela alta o object-cover corta as
-        // laterais, então o enquadramento puxa para a direita do centro, onde estão
-        // as motos — sem isso o celular mostra parede e planta.
-        className="animate-kenburns absolute inset-0 -z-10 h-full w-full object-cover object-[62%_center]"
-      />
-      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-hero" />
-      {/* No celular o texto ocupa a largura toda e passa por cima do farol aceso, que é
-          o ponto mais claro da arte. Este véu extra só existe abaixo de sm. */}
-      <div aria-hidden className="absolute inset-0 -z-10 bg-black/35 sm:hidden" />
-      {/* Luz dourada que respira atrás das motos + linhas de velocidade */}
+      {/* Fundo desenhado (sem foto de cidade grande): preto com luz dourada, piso em
+          grade com perspectiva, faixas diagonais e granulado. A moto entra por cima. */}
+      <div aria-hidden className="hero-fundo absolute inset-0 -z-20" />
+      <div aria-hidden className="hero-piso absolute inset-x-0 bottom-0 -z-20 h-[45%]" />
       <div
         aria-hidden
-        className="animate-glow pointer-events-none absolute -right-40 top-1/4 -z-10 h-[520px] w-[720px] rounded-full bg-primary/25 blur-[120px]"
+        className="animate-glow pointer-events-none absolute -right-32 top-[18%] -z-10 h-[420px] w-[420px] rounded-full bg-primary/30 blur-[110px] lg:right-[6%] lg:h-[620px] lg:w-[620px]"
       />
       <div
         aria-hidden
@@ -191,22 +177,14 @@ function Hero({ bikes }: { bikes: Bike[] }) {
           />
         ))}
       </div>
-      {/* Faixas diagonais amarelas, que se desenham na entrada */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-[8%] -z-10 hidden w-24 lg:block"
-      >
-        <span className="absolute inset-y-[12%] left-0 w-[3px] origin-top -skew-x-[24deg] bg-gradient-to-b from-primary via-primary/60 to-transparent [animation:vr-fade_1.6s_.5s_both]" />
-        <span className="absolute inset-y-[22%] left-8 w-px origin-top -skew-x-[24deg] bg-gradient-to-b from-primary/70 to-transparent [animation:vr-fade_1.6s_.8s_both]" />
-      </div>
 
-      <div className="mx-auto max-w-[1400px] px-5 pb-24 pt-20 sm:px-8 lg:px-6 lg:pb-32 lg:pt-28">
-        <div className="max-w-3xl">
-          <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-primary/40 bg-black/40 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+      <div className="mx-auto grid max-w-[1400px] items-center gap-5 px-5 pb-12 pt-8 sm:px-8 sm:pb-20 sm:pt-16 lg:grid-cols-[1.05fr_1fr] lg:gap-x-4 lg:gap-y-0 lg:px-6 lg:pb-28 lg:pt-20">
+        <div className="relative z-10 max-w-3xl lg:col-start-1 lg:row-start-1 lg:self-end">
+          <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-primary/40 bg-black/40 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-primary backdrop-blur sm:text-[11px]">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
             Grupo VR • {UNIDADE.cidade}/{UNIDADE.uf}
           </span>
-          <h1 className="mt-6 font-display text-[40px] font-bold leading-[1.04] tracking-tight text-white sm:text-[56px] lg:text-[68px]">
+          <h1 className="mt-5 font-display text-[34px] font-bold leading-[1.05] tracking-tight text-white sm:mt-6 sm:text-[56px] lg:text-[66px]">
             <span className="block overflow-hidden pb-1">
               <span className="animate-rise block [animation-delay:.1s]">Sua próxima moto</span>
             </span>
@@ -216,14 +194,17 @@ function Hero({ bikes }: { bikes: Bike[] }) {
               </span>
             </span>
           </h1>
-          <p className="animate-rise mt-6 max-w-lg text-base text-white/75 [animation-delay:.45s] sm:text-lg">
+        </div>
+
+        <div className="relative z-10 order-3 max-w-3xl lg:order-none lg:col-start-1 lg:row-start-3">
+          <p className="animate-rise max-w-lg lg:mt-6 text-[15px] leading-relaxed text-white/75 [animation-delay:.45s] sm:mt-6 sm:text-lg">
             {listaDeMarcas(bikes)} no mesmo showroom. Escolha o modelo, a cor, e veja as condições
             direto no WhatsApp.
           </p>
-          <div className="animate-rise mt-9 flex flex-wrap items-center gap-3 [animation-delay:.6s]">
+          <div className="animate-rise mt-6 grid grid-cols-1 gap-3 [animation-delay:.6s] sm:mt-9 sm:flex sm:flex-wrap sm:items-center">
             <a
               href="#linha"
-              className="btn-shine group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground shadow-cta transition hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_12px_30px_-10px_hsl(47_97%_48%/0.7)]"
+              className="btn-shine group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground shadow-cta transition hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_12px_30px_-10px_hsl(47_97%_48%/0.7)]"
             >
               Ver as motos
               <ArrowRight
@@ -235,34 +216,56 @@ function Hero({ bikes }: { bikes: Bike[] }) {
               href={WHATSAPP}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 py-4 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/20"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 py-4 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/20"
             >
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping-soft" />
+              <span className="h-2 w-2 animate-ping-soft rounded-full bg-emerald-400" />
               Falar no WhatsApp
             </a>
           </div>
-          <dl className="animate-rise mt-12 grid max-w-xl grid-cols-3 gap-x-6 gap-y-5 border-t border-white/15 pt-6 text-left [animation-delay:.75s]">
-            {[
-              // Contados da própria vitrine: mudou o estoque no painel, muda aqui.
-              { k: `${marcas.length} marcas`, v: "no showroom" },
-              { k: `${bikes.length} modelos`, v: "0 km" },
-              { k: "8 bancos", v: "no financiamento" },
-            ].map((s) => (
-              <div key={s.v}>
-                <dt className="font-display text-lg font-bold leading-tight text-white sm:whitespace-nowrap sm:text-2xl">
-                  <Contador valor={s.k} />
-                </dt>
-                <dd className="mt-1 text-xs uppercase tracking-widest text-white/60">{s.v}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
+
+        {/* Moto em estúdio, com a borda dissolvida no preto. No celular vem depois dos
+            botões, menor; no computador fica à direita, grande. */}
+        <div className="relative order-2 -mx-5 -mb-6 -mt-2 sm:mx-0 lg:order-none sm:my-0 lg:col-start-2 lg:row-span-4 lg:row-start-1 lg:-mr-10 lg:self-center">
+          <div className="animate-rise [animation-delay:.35s]">
+            <img
+              src={heroBike}
+              alt="Moto naked azul em estúdio, iluminada por trás com luz dourada"
+              width={1600}
+              height={1200}
+              fetchPriority="high"
+              className="hero-moto relative mx-auto aspect-[4/3] w-[86%] max-w-[720px] object-cover sm:w-full"
+            />
+          </div>
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-x-[15%] bottom-[8%] h-6 rounded-[50%] bg-primary/30 blur-2xl"
+          />
+        </div>
+
+        <dl className="animate-rise order-4 grid lg:order-none grid-cols-3 gap-x-4 border-t border-white/15 pt-5 text-left [animation-delay:.75s] sm:max-w-xl sm:gap-x-6 sm:pt-6 lg:col-start-1 lg:row-start-4 lg:mt-10">
+          {[
+            // Contados da própria vitrine: mudou o estoque no painel, muda aqui.
+            { k: `${marcas.length}`, u: "marcas", v: "no showroom" },
+            { k: `${bikes.length}`, u: "modelos", v: "0 km" },
+            { k: "8", u: "bancos", v: "no financiamento" },
+          ].map((s) => (
+            <div key={s.v}>
+              <dt className="font-display text-2xl font-bold leading-none text-white sm:text-3xl">
+                <Contador valor={s.k} />{" "}
+                <span className="text-sm font-semibold text-white/80 sm:text-xl">{s.u}</span>
+              </dt>
+              <dd className="mt-1.5 text-[10px] uppercase tracking-widest text-white/55 sm:text-xs">
+                {s.v}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
-      {/* Indicador de rolagem */}
       <a
         href="#destaques"
         aria-label="Rolar para as motos"
-        className="absolute bottom-6 left-1/2 hidden h-10 w-6 -translate-x-1/2 rounded-full border-2 border-white/30 transition hover:border-primary sm:block"
+        className="absolute bottom-6 left-1/2 hidden h-10 w-6 -translate-x-1/2 rounded-full border-2 border-white/30 transition hover:border-primary lg:block"
       >
         <span className="absolute left-1/2 top-2 h-2 w-1 -translate-x-1/2 rounded-full bg-primary [animation:vr-cue_1.6s_infinite]" />
       </a>
@@ -345,7 +348,7 @@ function Destaques({
   if (lista.length === 0) return null;
   return (
     <section id="destaques" className="scroll-mt-16 border-b border-border">
-      <div className="mx-auto max-w-[1400px] px-5 py-20 lg:px-10 lg:py-24">
+      <div className="mx-auto max-w-[1400px] px-5 py-14 sm:py-20 lg:px-10 lg:py-24">
         <header className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <SectionHeading
             kicker="Destaques da loja"
@@ -364,7 +367,7 @@ function Destaques({
         </header>
         {/* No celular, uma fileira que desliza para o lado: seis cards empilhados
             empurrariam o catálogo para muito longe. */}
-        <div className="-mx-5 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
+        <div className="carrossel -mx-5 mt-7 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-5 pb-2 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
           {lista.map((b, i) => (
             <div
               key={b.id}
@@ -447,7 +450,7 @@ function Lineup({
 
   return (
     <section id="linha" className="scroll-mt-16">
-      <div className="mx-auto max-w-[1700px] px-5 pt-20 lg:px-10 lg:pt-24">
+      <div className="mx-auto max-w-[1700px] px-5 pt-14 sm:pt-20 lg:px-10 lg:pt-24">
         <header className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <SectionHeading
             kicker="Catálogo — linha 2026"
@@ -465,11 +468,11 @@ function Lineup({
       {/* Abas presas logo abaixo do cabeçalho: dá para trocar de marca sem voltar ao topo.
           No celular a fileira rola de lado; no computador quebra linha, porque com oito
           marcas a última aba ficaria escondida atrás de uma rolagem que o mouse não vê. */}
-      <div className="sticky top-16 z-30 mt-10 border-y border-border bg-background/90 backdrop-blur-md">
+      <div className="sticky top-16 z-30 mt-7 border-y border-border bg-background sm:mt-10 sm:bg-background/90 sm:backdrop-blur-md">
         <div
           role="group"
           aria-label="Filtrar por marca"
-          className="mx-auto flex max-w-[1700px] gap-2 overflow-x-auto px-5 py-3 [scrollbar-width:none] lg:flex-wrap lg:px-10"
+          className="mx-auto flex max-w-[1700px] gap-2 overflow-x-auto px-5 py-3 [mask-image:linear-gradient(90deg,#000_85%,transparent)] [scrollbar-width:none] lg:flex-wrap lg:px-10 lg:[mask-image:none]"
         >
           {marcas.map((m) => {
             const total = bikes.filter((b) => b.marca.id === m.id).length;
@@ -506,18 +509,31 @@ function Lineup({
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1700px] px-5 pb-20 lg:px-10 lg:pb-24">
+      <div className="mx-auto max-w-[1700px] px-5 pb-14 sm:pb-20 lg:px-10 lg:pb-24">
         {grupos.map(({ marca, bikes: lista }) => (
-          <div key={marca.id} className="pt-10">
-            <div data-reveal="left" className="flex items-center gap-4 border-b border-border pb-4">
+          <div key={marca.id} className="pt-8 sm:pt-10">
+            <div
+              data-reveal="left"
+              className="flex items-center gap-4 border-b border-border pb-3 sm:pb-4"
+            >
               <SeloMarca marca={marca} className="h-6 sm:h-7" />
               <span className="text-sm text-muted-foreground">
                 {lista.length} modelo{lista.length === 1 ? "" : "s"}
               </span>
+              {lista.length > 1 && (
+                <span className="ml-auto text-xs text-muted-foreground sm:hidden">deslize →</span>
+              )}
             </div>
-            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {/* No celular, cada marca vira uma fileira que desliza: a lista empilhada
+                ficava comprida demais. Do sm para cima, grade. */}
+            <div className="carrossel -mx-5 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-5 pb-1 [scrollbar-width:none] sm:mx-0 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 xl:grid-cols-4">
               {lista.map((b, i) => (
-                <div key={b.id} data-reveal="up" style={atraso(i % 4, 90)} className="flex">
+                <div
+                  key={b.id}
+                  data-reveal="up"
+                  style={atraso(i % 4, 90)}
+                  className="flex w-[82%] shrink-0 snap-start sm:w-auto"
+                >
                   <BikeCard bike={b} onAmpliar={onAmpliar} />
                 </div>
               ))}
@@ -567,7 +583,7 @@ const EXPERIENCE_FEATURES = [
 function Experience() {
   return (
     <section id="experiencia" className="border-y border-border bg-surface">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8 lg:py-24">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:py-20 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8 lg:py-24">
         <div data-reveal="left" className="group relative order-2 lg:order-1">
           {/* PENDENTE: foto da fachada desta loja. Esta é de outra unidade da rede — por
               isso o alt fala da rede, para não afirmar o que a imagem não mostra. */}
@@ -638,11 +654,20 @@ function Services() {
     },
   ];
   return (
-    <section id="servicos" className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-24">
-      <SectionHeading kicker="Serviços" title="Muito além da venda." className="mb-12 max-w-2xl" />
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <section id="servicos" className="mx-auto max-w-7xl px-5 py-14 sm:py-20 lg:px-8 lg:py-24">
+      <SectionHeading
+        kicker="Serviços"
+        title="Muito além da venda."
+        className="mb-8 max-w-2xl sm:mb-12"
+      />
+      <div className="carrossel -mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-5 pb-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
         {items.map((s, i) => (
-          <div key={s.t} data-reveal="up" style={atraso(i, 110)} className="relative h-full">
+          <div
+            key={s.t}
+            data-reveal="up"
+            style={atraso(i, 110)}
+            className="relative h-full w-[78%] shrink-0 snap-start sm:w-auto"
+          >
             <div className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card p-6 shadow-card transition duration-500 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-card-hover">
               <span
                 aria-hidden
@@ -692,7 +717,7 @@ const BANK_PARTNERS: { name: string; logo: string; size?: string }[] = [
 
 function Financing() {
   return (
-    <section id="financiamento" className="relative overflow-hidden py-20 lg:py-24">
+    <section id="financiamento" className="relative overflow-hidden py-14 sm:py-20 lg:py-24">
       <img
         src={heroBike}
         alt=""
@@ -797,7 +822,7 @@ function Financing() {
 function Visit() {
   return (
     <section id="visite" className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:px-8 lg:py-24">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-14 sm:py-20 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:px-8 lg:py-24">
         <div>
           <SectionHeading
             kicker="Venha nos visitar"
@@ -807,7 +832,11 @@ function Visit() {
             Nosso showroom foi feito pra você passar tempo. Chega, escolhe, testa. Sem pressa e sem
             pressão.
           </p>
-          <div data-reveal="up" style={atraso(2)} className="mt-10 grid gap-6 sm:grid-cols-2">
+          <div
+            data-reveal="up"
+            style={atraso(2)}
+            className="mt-7 grid grid-cols-2 gap-5 sm:mt-10 sm:gap-6"
+          >
             <div>
               <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
                 Endereço
@@ -829,11 +858,12 @@ function Visit() {
                 ))}
               </p>
             </div>
-            <div>
-              <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                WhatsApp
-              </p>
-              {TEM_WHATSAPP ? (
+            {/* Some enquanto o número não está cadastrado em src/config/unidade.ts. */}
+            {TEM_WHATSAPP && (
+              <div>
+                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                  WhatsApp
+                </p>
                 <a
                   href={WHATSAPP}
                   target="_blank"
@@ -842,10 +872,8 @@ function Visit() {
                 >
                   {UNIDADE.whatsapp.exibicao}
                 </a>
-              ) : (
-                <p className="mt-2 text-sm text-muted-foreground">{UNIDADE.whatsapp.exibicao}</p>
-              )}
-            </div>
+              </div>
+            )}
           </div>
           <div
             data-reveal="zoom"
@@ -855,7 +883,7 @@ function Visit() {
               title={`Mapa até a ${UNIDADE.nome}`}
               src={MAPS_EMBED_URL}
               width="100%"
-              height="260"
+              height="220"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="block grayscale-[15%]"

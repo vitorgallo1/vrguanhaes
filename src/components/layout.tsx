@@ -47,21 +47,32 @@ export function Nav() {
   const barra = useRef<HTMLSpanElement>(null);
   // Fundo mais sólido depois que a página rola, e a barra amarela de progresso.
   useEffect(() => {
-    const aoRolar = () => {
+    let quadro = 0;
+    const atualizar = () => {
+      quadro = 0;
       const y = window.scrollY;
       setRolou(y > 24);
       const total = document.documentElement.scrollHeight - window.innerHeight;
       barra.current?.style.setProperty("--p", String(total > 0 ? y / total : 0));
     };
-    aoRolar();
+    // Um cálculo por quadro, no máximo: o evento de rolagem dispara muito mais que isso.
+    const aoRolar = () => {
+      if (!quadro) quadro = requestAnimationFrame(atualizar);
+    };
+    atualizar();
     window.addEventListener("scroll", aoRolar, { passive: true });
-    return () => window.removeEventListener("scroll", aoRolar);
+    return () => {
+      window.removeEventListener("scroll", aoRolar);
+      cancelAnimationFrame(quadro);
+    };
   }, []);
   return (
     <header
       id="top"
-      className={`sticky top-0 z-40 border-b backdrop-blur-md transition-colors duration-300 ${
-        rolou ? "border-border bg-background/90" : "border-transparent bg-background/40"
+      className={`sticky top-0 z-40 border-b transition-colors duration-300 md:backdrop-blur-md ${
+        rolou
+          ? "border-border bg-background md:bg-background/90"
+          : "border-transparent bg-background/80 md:bg-background/40"
       }`}
     >
       <span
@@ -171,7 +182,7 @@ export function SectionHeading({
           {kicker}
         </p>
       )}
-      <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] text-ink sm:text-5xl">
+      <h2 className="mt-3 font-display text-[30px] font-bold leading-[1.08] text-ink sm:mt-4 sm:text-5xl">
         {title}
       </h2>
     </div>
@@ -181,8 +192,8 @@ export function SectionHeading({
 export function Footer() {
   return (
     <footer className="border-t border-border bg-background text-muted-foreground">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
-        <div className="flex flex-col gap-3 sm:col-span-2 lg:col-span-1">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-5 py-10 sm:gap-10 sm:py-14 lg:grid-cols-4 lg:px-8">
+        <div className="col-span-2 flex flex-col gap-3 lg:col-span-1">
           <Logo />
           <p className="max-w-sm text-sm font-medium text-ink/80">
             A {UNIDADE.nome} é uma unidade franqueada do Grupo VR, referência em varejo
@@ -191,7 +202,7 @@ export function Footer() {
         </div>
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-primary">Navegação</p>
-          <div className="mt-4 flex flex-col gap-2.5 text-sm font-semibold text-ink">
+          <div className="mt-3 flex flex-col gap-2 text-sm font-semibold text-ink sm:mt-4 sm:gap-2.5">
             {NAV_LINKS.map((l) => (
               <a key={l.href} href={l.href} className="transition hover:text-primary">
                 {l.label}
@@ -201,7 +212,7 @@ export function Footer() {
         </div>
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-primary">Contato</p>
-          <div className="mt-4 flex flex-col gap-2.5 text-sm font-semibold text-ink">
+          <div className="mt-3 flex flex-col gap-2 text-sm font-semibold text-ink sm:mt-4 sm:gap-2.5">
             <span>{UNIDADE.endereco.curto}</span>
             {TEM_WHATSAPP ? (
               <a
@@ -217,9 +228,9 @@ export function Footer() {
             )}
           </div>
         </div>
-        <div>
+        <div className="col-span-2 sm:col-span-1">
           <p className="text-xs font-bold uppercase tracking-widest text-primary">Horário</p>
-          <div className="mt-4 flex flex-col gap-2.5 text-sm font-semibold text-ink">
+          <div className="mt-3 flex flex-col gap-2 text-sm font-semibold text-ink sm:mt-4 sm:gap-2.5">
             {UNIDADE.horario.map((linha) => (
               <span key={linha}>{linha}</span>
             ))}
@@ -229,10 +240,16 @@ export function Footer() {
       <div className="border-t border-border px-5 py-5 lg:px-8">
         <p className="text-xs font-semibold leading-relaxed text-ink/85">
           © {new Date().getFullYear()} VR Multimarcas. Todos os direitos reservados.
-          <br />
-          <span className="text-primary">
-            {UNIDADE.razaoSocial} • <span className="whitespace-nowrap">CNPJ {UNIDADE.cnpj}</span>
-          </span>
+          {/* Razão social e CNPJ só aparecem depois de preenchidos em unidade.ts. */}
+          {UNIDADE.cnpj && (
+            <>
+              <br />
+              <span className="text-primary">
+                {UNIDADE.razaoSocial} •{" "}
+                <span className="whitespace-nowrap">CNPJ {UNIDADE.cnpj}</span>
+              </span>
+            </>
+          )}
         </p>
       </div>
     </footer>

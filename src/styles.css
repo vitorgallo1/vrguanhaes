@@ -299,3 +299,116 @@ html.anim [data-reveal].is-in .kicker-line { transform: scaleX(1); }
   html.anim [data-reveal] { opacity: 1; transform: none; filter: none; }
   .marquee { animation: none; }
 }
+
+/* =====================================================================================
+ * Fundo — hero desenhado e textura da página
+ * ===================================================================================== */
+
+/* Hero: preto com luz dourada vinda da direita e faixas diagonais bem sutis */
+.hero-fundo {
+  background:
+    radial-gradient(70% 60% at 78% 45%, hsl(47 97% 48% / 0.16), transparent 70%),
+    radial-gradient(50% 50% at 0% 0%, hsl(47 97% 48% / 0.07), transparent 70%),
+    repeating-linear-gradient(115deg, hsl(0 0% 100% / 0.018) 0 1px, transparent 1px 42px),
+    linear-gradient(180deg, hsl(0 0% 4%), hsl(0 0% 0%) 85%);
+}
+/* Piso em grade com perspectiva, sumindo para o fundo */
+.hero-piso {
+  background-image:
+    linear-gradient(hsl(47 97% 48% / 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(47 97% 48% / 0.22) 1px, transparent 1px);
+  background-size: 56px 56px;
+  transform: perspective(500px) rotateX(62deg);
+  transform-origin: bottom;
+  -webkit-mask-image: linear-gradient(0deg, #000 0%, transparent 85%);
+  mask-image: linear-gradient(0deg, #000 0%, transparent 85%);
+  animation: vr-piso 3s linear infinite;
+  opacity: 0.55;
+}
+@keyframes vr-piso { to { background-position: 0 56px, 0 0; } }
+
+/* A foto da moto tem fundo de estúdio cinza-escuro: a máscara dissolve as bordas no
+   preto da página e o blend tira o cinza que sobra. */
+.hero-moto {
+  -webkit-mask-image: radial-gradient(closest-side at 52% 52%, #000 62%, transparent 100%);
+  mask-image: radial-gradient(closest-side at 52% 52%, #000 62%, transparent 100%);
+  mix-blend-mode: lighten;
+  filter: contrast(1.08) saturate(1.05);
+}
+
+/* Textura da página inteira: granulado quase invisível que tira o "preto chapado" */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Seções sem foto ganham um brilho dourado discreto no canto */
+#destaques,
+#servicos {
+  background-image: radial-gradient(50% 40% at 100% 0%, hsl(47 97% 48% / 0.06), transparent 70%);
+}
+#linha {
+  background-image: radial-gradient(40% 30% at 0% 10%, hsl(47 97% 48% / 0.05), transparent 70%);
+}
+
+/* Elemento que entra pela lateral não pode alargar a página antes de aparecer */
+html,
+body {
+  overflow-x: clip;
+}
+/* No celular, tudo entra de baixo para cima — vindo do lado parece tela quebrada */
+@media (max-width: 640px) {
+  html.anim [data-reveal="left"],
+  html.anim [data-reveal="right"] {
+    transform: translate3d(0, 32px, 0);
+  }
+  .hero-piso { background-size: 40px 40px; }
+}
+
+/* =====================================================================================
+ * Celular: rolagem fluida. Desfoque, vidro fosco, brilho animado e camadas fixas custam
+ * caro na GPU do telefone e fazem a rolagem engasgar — aqui ficam de fora.
+ * ===================================================================================== */
+@media (max-width: 767px) {
+  html.anim [data-reveal] {
+    transition-duration: 0.55s;
+    transition-delay: calc(var(--d, 0ms) * 0.5);
+  }
+  html.anim [data-reveal="up"],
+  html.anim [data-reveal="left"],
+  html.anim [data-reveal="right"] {
+    transform: translate3d(0, 18px, 0);
+  }
+  html.anim [data-reveal="zoom"] {
+    transform: scale(0.98);
+  }
+  html.anim [data-reveal],
+  html.anim [data-reveal="zoom"] {
+    filter: none;
+  }
+  /* Card que ainda está fora da tela, na fileira que desliza, já aparece pronto:
+     animar na hora do deslize parece atraso. */
+  html.anim .carrossel [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  body::before {
+    display: none;
+  }
+  .hero-piso,
+  .animate-glow {
+    animation: none;
+  }
+  .hero-moto {
+    mix-blend-mode: normal;
+  }
+  .animate-rise {
+    animation-duration: 0.6s;
+  }
+}
