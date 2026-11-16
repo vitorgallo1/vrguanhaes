@@ -1,7 +1,7 @@
 // Página própria de cada moto: /motos/honda-cg-160-titan.
 //
 // Existe por SEO: quem procura moto pesquisa pelo modelo e pela cidade ("Bros 160
-// Guanhães"), e uma página única com todas as motos não disputa nenhuma dessas buscas.
+// Patos de Minas"), e uma página única com todas as motos não disputa nenhuma dessas buscas.
 // Cada página tem título, descrição e endereço próprios, a abertura da loja (o texto que
 // diferencia esta loja das outras da rede), o texto longo, a ficha técnica e os
 // dados estruturados que dizem ao Google que é um produto vendido por uma concessionária.

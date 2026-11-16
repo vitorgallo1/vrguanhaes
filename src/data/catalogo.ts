@@ -77,7 +77,7 @@ type Entrada = Omit<Moto, "destaque" | "unidades" | "ativo"> & Partial<Pick<Moto
 /** Toda moto do catálogo nasce ativa, nas duas lojas e fora dos destaques. */
 const moto = (m: Entrada): Moto => ({
   destaque: false,
-  unidades: ["guanhaes"],
+  unidades: ["patos"],
   ativo: true,
   ...m,
 });

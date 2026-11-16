@@ -35,14 +35,14 @@ const motoSchema = z.object({
   destaque: z.boolean(),
   posicaoDestaque: z.number().int().min(1).max(99).optional(),
   emEstoque: z.boolean().optional(),
-  unidades: z.array(z.enum(["guanhaes"])).min(1),
+  unidades: z.array(z.enum(["patos"])).min(1),
   ativo: z.boolean(),
   ordem: z.number().int().min(0),
   slug: z.string().max(80).optional(),
   tituloSeo: z.string().max(90).optional(),
   descricaoSeo: z.string().max(220).optional(),
   textoPagina: z.string().max(6000).optional(),
-  textoPorLoja: z.object({ guanhaes: z.string().max(1500).optional() }).optional(),
+  textoPorLoja: z.object({ patos: z.string().max(1500).optional() }).optional(),
   ficha: z
     .array(z.object({ rotulo: z.string().max(60), valor: z.string().max(120) }))
     .max(30)

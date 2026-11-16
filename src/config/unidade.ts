@@ -1,14 +1,14 @@
-// Loja de Guanhães/MG. Tudo que é específico da loja mora aqui; a página não repete
+// Loja de Patos de Minas/MG. Tudo que é específico da loja mora aqui; a página não repete
 // endereço, telefone nem nome de cidade em nenhum outro arquivo.
 //
 // Mesma base das LPs de Biguaçu, João Pessoa, Tijucas e Taubaté. Este projeto tem uma
-// loja só, então o build sempre sai como Guanhães (VITE_UNIDADE não é necessária).
+// loja só, então o build sempre sai como Patos de Minas (VITE_UNIDADE não é necessária).
 //
-// PENDENTE: razão social, CNPJ, endereço, WhatsApp e horário de Guanhães. Enquanto o
+// PENDENTE: razão social, CNPJ, endereço, WhatsApp e horário de Patos de Minas. Enquanto o
 // WhatsApp estiver vazio, os botões abrem o WhatsApp sem destinatário e o diagnóstico
 // de SEO do painel aponta o que falta.
 
-export type UnidadeId = "guanhaes";
+export type UnidadeId = "patos";
 
 type DiaDaSemana =
   | "Monday"
@@ -53,11 +53,11 @@ type Unidade = {
 };
 
 export const UNIDADES: Record<UnidadeId, Unidade> = {
-  guanhaes: {
-    id: "guanhaes",
-    nome: "VR Multimarcas Guanhães",
-    nomeCurto: "VR Guanhães",
-    cidade: "Guanhães",
+  patos: {
+    id: "patos",
+    nome: "VR Multimarcas Patos de Minas",
+    nomeCurto: "VR Patos de Minas",
+    cidade: "Patos de Minas",
     uf: "MG",
     // PENDENTE: razão social e CNPJ da loja.
     razaoSocial: "",
@@ -67,12 +67,12 @@ export const UNIDADES: Record<UnidadeId, Unidade> = {
       rua: "",
       bairro: "",
       cep: "",
-      linha1: "Guanhães / MG",
+      linha1: "Patos de Minas / MG",
       linha2: "Endereço em breve",
-      curto: "Guanhães/MG",
-      busca: "Guanhães - MG",
+      curto: "Patos de Minas/MG",
+      busca: "Patos de Minas - MG",
     },
-    // PENDENTE: WhatsApp da loja (só dígitos, com 55 e DDD — ex.: 5533999999999).
+    // PENDENTE: WhatsApp da loja (só dígitos, com 55 e DDD — ex.: 5534999999999).
     whatsapp: { e164: "", exibicao: "" },
     // PENDENTE: confirmar horário com a loja.
     horario: ["Segunda a sexta: 09:00 às 18:00", "Sábado: 09:00 às 13:00"],
@@ -84,11 +84,13 @@ export const UNIDADES: Record<UnidadeId, Unidade> = {
       },
       { dias: ["Saturday"], abre: "09:00", fecha: "13:00" },
     ],
+    // PENDENTE: o site do Netlify ainda se chama vrmultimarcasguanhaes. Ao renomear
+    // (ou apontar o domínio), troque aqui — canônica, sitemap e robots saem disto.
     siteUrl: "https://vrmultimarcasguanhaes.netlify.app",
   },
 };
 
-export const UNIDADE_ID: UnidadeId = "guanhaes";
+export const UNIDADE_ID: UnidadeId = "patos";
 export const UNIDADE = UNIDADES[UNIDADE_ID];
 
 export const SITE_URL = UNIDADE.siteUrl;

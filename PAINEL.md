@@ -1,6 +1,6 @@
 # Painel de estoque — /admin
 
-Abre em `vrmultimarcasguanhaes.netlify.app/admin` e edita o estoque da loja de Guanhães.
+Abre em `/admin` do site (hoje `vrmultimarcasguanhaes.netlify.app/admin` — o site do Netlify ainda tem o nome antigo) e edita o estoque da loja de Patos de Minas.
 
 ## Primeiro acesso
 
@@ -40,7 +40,7 @@ salvar.
 ## Cadastrar ou editar uma moto
 
 - **Marca:** decide em que aba a moto aparece.
-- **Lojas:** deixe Guanhães marcada para a moto aparecer no site.
+- **Lojas:** deixe Patos de Minas marcada para a moto aparecer no site.
 - **Cores:** nome da cor, a bolinha (clique no quadrado para escolher a cor; "bicolor"
   para pintura de duas cores) e a foto. A primeira cor é a que o card mostra ao abrir;
   a seta ↑ promove uma cor para primeira.
@@ -58,7 +58,7 @@ que resolve.
 - **Vermelho (alta):** resolver antes de divulgar — foto faltando ou quebrada, endereço
   repetido, loja sem WhatsApp ou endereço.
 - **Amarelo (média):** o que mais sobe a página — o **texto da página** e a **abertura de
-  cada loja**. A abertura é o primeiro parágrafo, com a cara de Guanhães; sem ela, a
+  cada loja**. A abertura é o primeiro parágrafo, com a cara de Patos de Minas; sem ela, a
   página fica parecida com a de outras lojas da rede.
 - **Cinza (baixa):** acabamento — ficha técnica, destaques do card.
 
