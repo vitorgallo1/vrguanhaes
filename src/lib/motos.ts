@@ -53,7 +53,7 @@ export type Moto = {
 
   /** Endereço da página: /motos/<slug>. Vazio = marca + nome ("honda-cg-160-titan"). */
   slug?: string;
-  /** Título que aparece no Google. Vazio = "Honda CG 160 Titan 0 km em Guanhães/MG | VR Multimarcas". */
+  /** Título que aparece no Google. Vazio = "Honda CG 160 Titan 0 km em Patos de Minas/MG | VR Multimarcas". */
   tituloSeo?: string;
   /** Descrição que aparece no Google, abaixo do título. Vazio = montada da descrição e das cores. */
   descricaoSeo?: string;
@@ -70,7 +70,7 @@ export type Moto = {
 
 export type ItemFicha = { rotulo: string; valor: string };
 
-export const TODAS_AS_UNIDADES: UnidadeId[] = ["guanhaes"];
+export const TODAS_AS_UNIDADES: UnidadeId[] = ["patos"];
 
 export const LIMITE_DESTAQUES = 6;
 export const LIMITE_CORES = 8;

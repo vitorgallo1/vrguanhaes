@@ -1,4 +1,4 @@
-# LP da VR Multimarcas Guanhães — ver DEPLOY.md.
+# LP da VR Multimarcas Patos de Minas — ver DEPLOY.md.
 [build]
   command = "bun run build"
   publish = "dist/client"

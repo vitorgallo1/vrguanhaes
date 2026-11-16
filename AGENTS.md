@@ -1,8 +1,8 @@
-# LP VR Multimarcas — Guanhães/MG
+# LP VR Multimarcas — Patos de Minas/MG
 
 Mesma base das LPs de Biguaçu, João Pessoa, Tijucas e Taubaté (copiada de
 `vrtijucasetaubate`): TanStack Start + React 19 + Vite, SSR via Nitro com preset
-`netlify`. Uma loja só (`guanhaes`). Ver `DEPLOY.md`.
+`netlify`. Uma loja só (`patos`). Ver `DEPLOY.md`.
 
 ## Onde mexer
 
@@ -37,7 +37,7 @@ Mesma base das LPs de Biguaçu, João Pessoa, Tijucas e Taubaté (copiada de
 - `src/routes/robots[.]txt.ts` e `src/routes/sitemap[.]xml.ts` — gerados por loja, porque
   o endereço muda conforme o site. O sitemap lista a página de cada moto da loja, lido do
   estoque na hora.
-- `public/og-guanhaes.jpg` — imagem de compartilhamento (1200×630).
+- `public/og-patos.jpg` — imagem de compartilhamento (1200×630).
 
 ## Como a vitrine funciona
 
@@ -74,9 +74,9 @@ Mesma base das LPs de Biguaçu, João Pessoa, Tijucas e Taubaté (copiada de
 
 ## Pendências (marcadas `PENDENTE` no código)
 
-- Razão social, CNPJ, endereço, WhatsApp e horário de Guanhães em `src/config/unidade.ts`.
+- Razão social, CNPJ, endereço, WhatsApp e horário de Patos de Minas em `src/config/unidade.ts`.
 - Domínio: trocar `siteUrl` em `src/config/unidade.ts`.
 - Fotos da JEF 170 (só a vermelha tem foto) e trocar links de rede (Shineray/SBM) pelos do
   fabricante quando o site da Shineray voltar.
-- Texto da página e abertura de Guanhães das 50 motos (guiado pela aba SEO).
+- Texto da página e abertura de Patos de Minas das 50 motos (guiado pela aba SEO).
 - Arte do hero e foto da fachada da loja (as atuais são da rede).

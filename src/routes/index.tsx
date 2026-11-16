@@ -816,7 +816,7 @@ function Financing() {
 }
 
 // Sem seção de depoimentos por enquanto: os que existem na rede são de clientes de
-// outras lojas. Volta quando Guanhães tiver os seus — o layout (grade de 4
+// outras lojas. Volta quando Patos de Minas tiver os seus — o layout (grade de 4
 // cartões com aspas) é o mesmo da LP de Biguaçu.
 
 function Visit() {

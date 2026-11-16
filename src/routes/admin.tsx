@@ -1,4 +1,4 @@
-// Painel de estoque da loja de Guanhães. Uma página só, protegida por
+// Painel de estoque da loja de Patos de Minas. Uma página só, protegida por
 // senha, igual nos dois sites: os dois editam a mesma lista (ver estoque.server.ts).
 //
 // A lista inteira fica em memória enquanto se edita e vai para o servidor num
@@ -192,7 +192,7 @@ function Painel() {
       <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-5 py-4">
           <div className="mr-auto">
-            <h1 className="font-display text-xl font-bold text-ink">Painel — Guanhães</h1>
+            <h1 className="font-display text-xl font-bold text-ink">Painel — Patos de Minas</h1>
             <p className="text-xs text-muted-foreground">
               {motos.length} moto{motos.length === 1 ? "" : "s"} • {destaques}/{LIMITE_DESTAQUES} em
               destaque
@@ -521,7 +521,7 @@ function Login({ configurado, aoEntrar }: { configurado: boolean; aoEntrar: () =
       >
         <h1 className="font-display text-2xl font-bold text-ink">Estoque das lojas</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Painel de quem cadastra as motos de Guanhães.
+          Painel de quem cadastra as motos de Patos de Minas.
         </p>
         <label className="mt-6 block text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
           Senha

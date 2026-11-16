@@ -7,7 +7,7 @@
 3. Em **Environment variables**, crie:
    - `PAINEL_SENHA` = a senha do painel
    - `PAINEL_SEGREDO` = uma sequência aleatória de 32+ caracteres
-4. Nome do site: `vrmultimarcasguanhaes` (o endereço que está em `siteUrl`, em
+4. Nome do site: hoje `vrmultimarcasguanhaes` — renomear para `vrmultimarcaspatosdeminas` e trocar o `siteUrl` (o endereço que está em `siteUrl`, em
    `src/config/unidade.ts`). Se renomear, troque lá também.
 5. Publique. Depois, em `/admin`, use "Trazer para o estoque" para carregar o catálogo.
 
@@ -24,4 +24,4 @@
 - [ ] Razão social, CNPJ, endereço, WhatsApp e horário em `src/config/unidade.ts`.
 - [ ] Domínio da loja (`siteUrl`).
 - [ ] Escolher as 6 mais vendidas no painel.
-- [ ] Foto da fachada de Guanhães (a atual é da rede).
+- [ ] Foto da fachada de Patos de Minas (a atual é da rede).

@@ -2,10 +2,10 @@
 // componente; use as funções de src/servidor/estoque.ts.
 //
 // Em produção: Netlify Blobs do próprio site. Cada moto diz em quais lojas aparece
-// (campo `unidades`) — aqui só existe Guanhães.
+// (campo `unidades`) — aqui só existe Patos de Minas.
 //
 // As variáveis opcionais ESTOQUE_SITE_ID e ESTOQUE_TOKEN fazem o site ler o Blobs de
-// OUTRO site do Netlify (usado quando duas lojas dividem um estoque). Guanhães não
+// OUTRO site do Netlify (usado quando duas lojas dividem um estoque). Patos de Minas não
 // precisa delas.
 //
 // Em desenvolvimento: um JSON em .dados/estoque.json, porque o Blobs precisa do
@@ -27,7 +27,7 @@ const temBlobs = () =>
 async function lerLocal(): Promise<Moto[] | null> {
   const { readFile } = await import("node:fs/promises");
   try {
-    return JSON.parse(await readFile(ARQUIVO_LOCAL, "utf8")) as Moto[];
+    return (JSON.parse(await readFile(ARQUIVO_LOCAL, "utf8")) as Moto[]).map(migrarUnidadeAntiga);
   } catch {
     return null;
   }
@@ -56,10 +56,26 @@ async function loja() {
 }
 
 /** null = nunca ninguém salvou nada (diferente de "salvou uma lista vazia"). */
+// A loja começou cadastrada como "guanhaes" e virou Patos de Minas ("patos"). Estoque
+// salvo antes da troca é lido com a loja nova, para a vitrine não sair vazia; a próxima
+// gravação pelo painel já salva no formato novo.
+function migrarUnidadeAntiga(m: Moto): Moto {
+  const antiga = m as Moto & { textoPorLoja?: Record<string, string | undefined> };
+  const unidades = (m.unidades as string[]).map((u) => (u === "guanhaes" ? "patos" : u));
+  const textos = antiga.textoPorLoja;
+  return {
+    ...m,
+    unidades: [...new Set(unidades)] as Moto["unidades"],
+    ...(textos && "guanhaes" in textos
+      ? { textoPorLoja: { patos: textos.patos ?? textos.guanhaes } }
+      : {}),
+  };
+}
+
 export async function lerEstoque(): Promise<Moto[] | null> {
   if (!temBlobs()) return lerLocal();
   const dados = (await (await loja()).get(CHAVE, { type: "json" })) as Moto[] | null;
-  return Array.isArray(dados) ? dados : null;
+  return Array.isArray(dados) ? dados.map(migrarUnidadeAntiga) : null;
 }
 
 export async function gravarEstoque(motos: Moto[]): Promise<void> {
